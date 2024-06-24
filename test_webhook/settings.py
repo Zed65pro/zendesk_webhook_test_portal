@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from firebase_admin import initialize_app, credentials
+from firebase_credentials import CustomFirebaseCredentials
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webe',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'fcm_django'
 ]
 
 MIDDLEWARE = [
@@ -127,9 +131,6 @@ ZENDESK_USER = 'momen.kittaneh'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
@@ -144,4 +145,17 @@ REST_FRAMEWORK = {
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables.pagination.DatatablesLimitOffsetPagination',
     'SEARCH_PARAM': 'q',
+}
+
+
+CREDENTIALS_FILE_LOCATION = os.path.join(BASE_DIR, 'firebase_credentials_json.json')
+FIREBASE_APP = initialize_app(credential=credentials.Certificate(CREDENTIALS_FILE_LOCATION))
+
+custom_credentials = CustomFirebaseCredentials(CREDENTIALS_FILE_LOCATION)
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, name='messaging')
+
+FCM_DJANGO_SETTINGS = {
+    'DEFAULT_FIREBASE_APP': FIREBASE_MESSAGING_APP,
+    'ONE_DEVICE_PER_USER': False,
+    'DELETE_INACTIVE_DEVICES': False,
 }

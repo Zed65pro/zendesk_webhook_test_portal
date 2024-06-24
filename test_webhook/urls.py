@@ -20,5 +20,4 @@ from webe import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/webhook', views.ZenDeskWebHookApiView.as_view()),
-    path('', views.TicketList.as_view())
 ]
