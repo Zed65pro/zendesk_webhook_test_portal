@@ -12,6 +12,7 @@ class ZenDeskWebHookApiView(generics.GenericAPIView):
     def post(self, request):
         data = request.data
         fcm_token = data.get('fcm_token')
+        body = data.get('body')
         if not fcm_token:
             return response.Response(
                 {'error': 'FCM token not provided'},
@@ -20,8 +21,8 @@ class ZenDeskWebHookApiView(generics.GenericAPIView):
 
         message = messaging.Message(
             notification=messaging.Notification(
-                title='Your Notification Title',
-                body='Your notification message body',
+                title='Mada Support Team',
+                body=body,
             ),
             token=fcm_token,
         )
