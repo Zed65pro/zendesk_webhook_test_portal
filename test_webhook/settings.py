@@ -138,12 +138,10 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework_datatables.renderers.DatatablesRenderer',
     ),
     'DEFAULT_THROTTLE_RATES': {
         'user': '5/day'
     },
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework_datatables.pagination.DatatablesLimitOffsetPagination',
     'SEARCH_PARAM': 'q',
 }
 
